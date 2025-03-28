@@ -10,4 +10,16 @@ router.get("/profile", verifyToken, (req, res) => {
   });
 });
 
+router.get("/getData", verifyToken, (req, res) => {
+  const { search } = req.query;
+  let sql = "SELECT * FROM users";
+  if (search) {
+    sql += ` WHERE name LIKE ? OR email LIKE ?`;
+  }
+  db.query(sql, search ? [`%${search}%`, `%${search}%`, `%${search}%`] : [], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(result);
+  });
+});
+
 module.exports = router;
