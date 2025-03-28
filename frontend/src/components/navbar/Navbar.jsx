@@ -1,8 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleLogoutButton = () => {
+    console.log("Logging out...");
+    localStorage.removeItem("token");
+    setTimeout(()=> navigate("/login"),1000);
+  };
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-secondary'>
       <div className='container'>
@@ -19,7 +26,7 @@ const Navbar = () => {
               <Link className='nav-link' to='/about'>About</Link>
             </li>
             <li className='nav-item'>
-              <button className='btn btn-danger'>Logout</button>
+              <button className='btn btn-danger' onClick={handleLogoutButton}>Logout</button>
             </li>
           </ul>
         </div>
